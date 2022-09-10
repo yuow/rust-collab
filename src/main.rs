@@ -1,8 +1,6 @@
 fn main() {
-    println!("Hello, omerica!");
-    mathfunction(123);
-}
+    let mut board: [bool; 3] = [false, false, false];
+    board[0] = true;
 
-fn mathfunction(n: i32) -> i32 {
-    return n;
+    println!("{:?}", board);
 }
