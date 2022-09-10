@@ -1,12 +1,21 @@
 use std::io;
 use std::io::*;
 
-type Board = [[bool; 3]; 3];
+#[derive(Debug, Clone, Copy)]
+enum Move {
+    X,
+    I,
+    O,
+}
+
+type Board = [[Move; 3]; 3];
 
 fn main() {
-    let mut board: Board = [[false, false, false]; 3];
+    let mut board: Board = [[Move::I, Move::I, Move::I]; 3];
     print_board(board);
     get_input();
+    board[0][0] = Move::X;
+    board[0][1] = Move::O;
 }
 
 fn print_board(board: Board) {
