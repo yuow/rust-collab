@@ -14,14 +14,9 @@ fn main() {
     let mut board: Board = [[Move::I; 3]; 3];
     let mut current_move = Move::X;
     print_board(board);
+
     loop {
-        let int_input = get_input();
-        board = make_move(current_move, board, int_input);
-        if current_move == Move::X {
-            current_move = Move::O;
-        } else if current_move == Move::O {
-            current_move = Move::X
-        }
+        make_move(&mut current_move, &mut board);
         print_board(board);
     }
 }
@@ -40,31 +35,45 @@ fn print_board(board: Board) {
 }
 
 fn get_input() -> usize {
-    let mut input = String::new();
-    io::stdin()
-        .read_line(&mut input)
-        .expect("error: unable to read user input");
-    let int_input = input
-        .trim()
-        .parse::<usize>()
-        .expect("please give me corrent string number");
-    // crushes when get string input (ex. onetwothree)
-    return int_input;
+    loop {
+        println!("write number between 1 and 9");
+        let mut input = String::new();
+
+        io::stdin()
+            .read_line(&mut input)
+            .expect("error: unable to read user input");
+        let int_input = input.trim();
+
+        match int_input.parse::<usize>() {
+            Ok(i) => {
+                if !(i < 1 || i > 9) {
+                    return i - 1;
+                }
+            }
+            _ => (),
+        };
+    }
 }
 
-fn make_move(current_move: Move, mut board: Board, mut input: usize) -> Board {
-    while !(1..10).contains(&input) {
-        println!("write number between 1 and 9");
-        input = get_input();
-    }
-    let mut x = (input - 1) % 3;
-    let mut y = (input - 1) / 3;
+fn make_move(current_move: &mut Move, board: &mut Board) {
+    let mut input = get_input();
+    let mut x = input % 3;
+    let mut y = input / 3;
+
     while board[y][x] != Move::I {
+        print_board(*board);
         println!("cell filled");
         input = get_input();
-        x = (input - 1) % 3;
-        y = (input - 1) / 3;
+        x = input % 3;
+        y = input / 3;
     }
-    board[(input - 1) / 3][(input - 1) % 3] = current_move;
-    return board;
+
+    board[input / 3][input % 3] = *current_move;
+
+    // idk why does dereferencing work this way
+    if *current_move == Move::X {
+        *current_move = Move::O;
+    } else if *current_move == Move::O {
+        *current_move = Move::X;
+    }
 }
