@@ -15,7 +15,7 @@ fn main() {
     let mut current_move = Move::X;
     print_board(board);
 
-    loop {
+    for _i in 0..9 {
         make_move(&mut current_move, &mut board);
         print_board(board);
         if check_win(board) {
@@ -25,9 +25,10 @@ fn main() {
                 current_move = Move::X;
             }
             println!("win {:?}", current_move);
-            break;
+            return;
         }
     }
+    println!("tie");
 }
 
 fn print_board(board: Board) {
