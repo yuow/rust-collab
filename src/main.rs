@@ -18,7 +18,7 @@ fn main() {
     loop {
         make_move(&mut current_move, &mut board);
         print_board(board);
-        if check_win(&mut board) {
+        if check_win(board) {
             if current_move == Move::X {
                 current_move = Move::O;
             } else if current_move == Move::O {
@@ -44,8 +44,8 @@ fn print_board(board: Board) {
 }
 
 fn get_input() -> usize {
+    println!("write number between 1 and 9");
     loop {
-        println!("write number between 1 and 9");
         let mut input = String::new();
 
         io::stdin()
@@ -87,40 +87,26 @@ fn make_move(current_move: &mut Move, board: &mut Board) {
     }
 }
 
-fn check_win(board: &mut Board) -> bool {
+fn check_win(board: Board) -> bool {
     for y in 0..3 {
-        if board[y][0] == Move::I || board[y][1] == Move::I || board[y][2] == Move::I {
-            continue;
-        }
-        if board[y][0] == board[y][1] && board[y][1] == board[y][2] {
+        if board[y][0] == board[y][1] && board[y][1] == board[y][2] && board[y][0] != Move::I {
             return true;
         }
     }
 
     for x in 0..3 {
-        if board[0][x] == Move::I || board[1][x] == Move::I || board[2][x] == Move::I {
-            continue;
-        }
-        if board[0][x] == board[1][x] && board[1][x] == board[2][x] {
+        if board[0][x] == board[1][x] && board[1][x] == board[2][x] && board[0][x] != Move::I {
             return true;
         }
     }
-    if board[0][0] != Move::I
-        && board[1][1] != Move::I
-        && board[2][2] != Move::I
-        && board[0][0] == board[1][1]
-        && board[1][1] == board[2][2]
-    {
+
+    if board[0][0] != Move::I && board[0][0] == board[1][1] && board[1][1] == board[2][2] {
         return true;
     }
 
-    if board[2][0] != Move::I
-        && board[1][1] != Move::I
-        && board[0][2] != Move::I
-        && board[2][0] == board[1][1]
-        && board[1][1] == board[0][2]
-    {
+    if board[2][0] != Move::I && board[2][0] == board[1][1] && board[1][1] == board[0][2] {
         return true;
     }
+
     return false;
 }
