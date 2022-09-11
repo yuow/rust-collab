@@ -14,6 +14,7 @@ Start the project:
 ```
 cargo run
 ```
+or
 Compile executable:
 ```
 cargo build
