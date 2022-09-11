@@ -85,6 +85,7 @@ fn make_move(current_move: &mut Move, board: &mut Board) {
     } else if *current_move == Move::O {
         *current_move = Move::X;
     }
+    println!("current player is {:?}", current_move);
 }
 
 fn check_win(board: Board) -> bool {
