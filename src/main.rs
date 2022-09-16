@@ -10,13 +10,15 @@ enum Move {
 type Board = [[Move; 3]; 3];
 
 fn main() {
-    // TODO: win check func
     let mut board: Board = [[Move::I; 3]; 3];
     let mut current_move = Move::X;
+
+    print!("{}[2J", 27 as char);
     print_board(board);
 
-    for _i in 0..9 {
+    for _ in 0..9 {
         make_move(&mut current_move, &mut board);
+        print!("{}[2J", 27 as char);
         print_board(board);
         if check_win(board) {
             if current_move == Move::X {
@@ -71,6 +73,7 @@ fn make_move(current_move: &mut Move, board: &mut Board) {
     let mut y = input / 3;
 
     while board[y][x] != Move::I {
+        print!("{}[2J", 27 as char);
         print_board(*board);
         println!("cell filled");
         input = get_input();
